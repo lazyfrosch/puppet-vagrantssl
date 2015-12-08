@@ -1,4 +1,4 @@
-class vagrantpuppetssl {
+class vagrantssl {
 
   $_options = [
     '--cadir=/vagrant/.ca',
