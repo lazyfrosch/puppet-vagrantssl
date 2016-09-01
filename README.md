@@ -1,15 +1,26 @@
-Puppet Vagrant SSL
-==================
+Puppet SSL in Vagrant
+=====================
 
-Creates a small Puppet CA environment for Vagrant boxes.
+For testing purposes its often very nice to have a simple CA in place.
 
-The CA will reside in `/vagrant/.ca`, while the certs are automatically created in `/var/lib/puppet/ssl`.
+Puppet can do that, but when you use it in apply-mode for Vagrant, there are not certificates.
 
-All Vagrant boxes in that environment will share the same CA, while every host has its own certificate.
+## How to use
+
+Update your `Vagrantfile` to include a new synced_folder.
+You will need a live folder like the `virtualbox` or `nfs` type.
+
+    config.vm.synced_folder 'ssl', '/var/lib/puppet/ssl', :type => 'virtualbox'
+
+When you then include the class:
+
+    include ::vagrantssl
+    
+A SSL CA is created, and a certificate/key pair for every vagrant node.
 
 ## License
 
-    Copyright (C) 2015 Markus Frosch <markus@lazyfrosch.de>
+    Copyright (C) 2015-2016 Markus Frosch <markus@lazyfrosch.de>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

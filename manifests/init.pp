@@ -1,28 +1,25 @@
-class vagrantssl {
+class vagrantssl(
+  $user     = 'vagrant',
+  $ssldir   = $::settings::ssldir,
+  $certname = $::fqdn,
+) {
+  validate_string($user, $certname)
+  validate_absolute_path($ssldir)
 
-  $_options = [
-    '--cadir=/vagrant/.ca',
-    '--user=vagrant',
-  ]
-  $__options = join($_options, ' ')
-
-  # build local CA
-  # local certifcate will be put in /var/lib/puppet/ssl automatically
-  exec { 'puppet vagrant CA':
-    command => "puppet cert ${__options} generate '${::fqdn}'",
-    user    => 'root',
-    path    => $::path,
-    creates => "/var/lib/puppet/ssl/certs/${::fqdn}.pem"
+  Exec {
+    path => $::path,
+    user => 'root',
   }
 
-  # copy CRL locally
-  # what the Puppet agent does usually
-  file { 'puppet cached crl':
-    ensure => file,
-    path   => '/var/lib/puppet/ssl/crl.pem',
-    source => '/vagrant/.ca/ca_crl.pem',
-    owner  => 'puppet',
-    group  => 'puppet',
-  }
+  $puppet_cert = "puppet cert --ssldir='${ssldir}' --user='${user}'"
 
+  exec { 'puppet ca create':
+    command => "${puppet_cert} list -a",
+    creates => "${ssldir}/ca/ca_crt.pem",
+  } ->
+
+  exec { 'puppet ca generate':
+    command => "${puppet_cert} generate '${certname}'",
+    creates => "${ssldir}/certs/${certname}.pem",
+  }
 }
