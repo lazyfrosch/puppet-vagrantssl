@@ -1,13 +1,13 @@
-class vagrantssl(
-  $user     = 'vagrant',
-  $ssldir   = $::settings::ssldir,
+class vagrantssl (
   $certname = $::fqdn,
+  $ssldir   = $::settings::ssldir,
+  $user     = 'vagrant',
 ) {
   validate_string($user, $certname)
   validate_absolute_path($ssldir)
 
   Exec {
-    path => $::path,
+    path => "/opt/puppetlabs/puppet/bin:${::path}",
     user => 'root',
   }
 
@@ -18,12 +18,12 @@ class vagrantssl(
     creates => "${ssldir}/ca/ca_crt.pem",
   } ->
 
-  exec { 'puppet ca generate':
+  exec { 'puppet cert generate':
     command => "${puppet_cert} generate '${certname}'",
     creates => "${ssldir}/certs/${certname}.pem",
   } ->
 
-  file { 'puppet ca crl':
+  file { 'puppet cached crl':
     ensure => file,
     path   => "${ssldir}/crl.pem",
     source => "${ssldir}/ca/ca_crl.pem",
