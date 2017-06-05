@@ -10,7 +10,15 @@ Puppet can do that, but when you use it in apply-mode for Vagrant, there are not
 Update your `Vagrantfile` to include a new synced_folder.
 You will need a live folder like the `virtualbox` or `nfs` type.
 
+```ruby
     config.vm.synced_folder 'ssl', '/var/lib/puppet/ssl', :type => 'virtualbox'
+    # or
+    config.vm.synced_folder 'ssl', '/etc/puppetlabs/puppet/ssl', :type => 'virtualbox'
+````
+
+You should also add the folder `.gitignore` in your Vagrant environment:
+
+    /ssl
 
 When you then include the class:
 
@@ -20,7 +28,7 @@ A SSL CA is created, and a certificate/key pair for every vagrant node.
 
 ## License
 
-    Copyright (C) 2015-2016 Markus Frosch <markus@lazyfrosch.de>
+    Copyright (C) 2015-2017 Markus Frosch <markus@lazyfrosch.de>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

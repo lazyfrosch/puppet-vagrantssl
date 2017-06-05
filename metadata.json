@@ -1,20 +1,38 @@
 {
   "name": "lazyfrosch-vagrantssl",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Markus Frosch <markus@lazyfrosch.de>",
-  "summary": "Provide Puppet SSL certificates inside a Vagrant box",
+  "summary": "Puppet SSL CA between Vagrant boxes",
   "license": "GPL-2.0+",
-  "source": "",
-  "project_page": null,
-  "issues_url": null,
+  "source": "https://github.com/lazyfrosch/puppet-vagrantssl.git",
+  "project_page": "https://github.com/lazyfrosch/puppet-vagrantssl",
+  "issues_url": "https://github.com/lazyfrosch/puppet-vagrantssl/issues",
+  "requirements": [
+    { "name": "puppet", "version_requirement": ">= 3.8.0 < 5.0.0" }
+  ],
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+    { "name": "puppetlabs/stdlib", "version_requirement": ">= 4.10.0 < 5.0.0" }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
+        "7",
         "8"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
       ]
     }
   ]
