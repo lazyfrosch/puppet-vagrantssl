@@ -13,7 +13,7 @@ You will need a live folder like the `virtualbox` or `nfs` type.
 ```ruby
     config.vm.synced_folder 'ssl', '/var/lib/puppet/ssl', :type => 'virtualbox'
     # or
-    config.vm.synced_folder 'ssl', '/etc/puppet/ssl', :type => 'virtualbox'
+    config.vm.synced_folder 'ssl', '/etc/puppetlabs/puppet/ssl', :type => 'virtualbox'
 ````
 
 You should also add the folder `.gitignore` in your Vagrant environment:
