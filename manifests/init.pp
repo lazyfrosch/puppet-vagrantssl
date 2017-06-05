@@ -1,7 +1,8 @@
 class vagrantssl (
-  $certname = $::fqdn,
-  $ssldir   = $::settings::ssldir,
-  $user     = 'vagrant',
+  $certname    = $::fqdn,
+  $ssldir      = $::settings::ssldir,
+  $user        = 'vagrant',
+  $letsencrypt = true,
 ) {
   validate_string($user, $certname)
   validate_absolute_path($ssldir)
@@ -27,5 +28,10 @@ class vagrantssl (
     ensure => file,
     path   => "${ssldir}/crl.pem",
     source => "${ssldir}/ca/ca_crl.pem",
+  }
+
+  if $letsencrypt {
+    contain ::vagrantssl::letsencrypt
+    Exec['puppet cert generate'] -> Class['::vagrantssl::letsencrypt']
   }
 }
