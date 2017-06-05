@@ -1,0 +1,10 @@
+---
+fixtures:
+  forge_modules:
+    concat:
+      repo: 'puppetlabs/concat'
+      ref: 2.2.1
+    stdlib: 'puppetlabs/stdlib'
+
+  symlinks:
+    vagrantssl: '../../..'
