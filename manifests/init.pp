@@ -16,14 +16,14 @@ class vagrantssl (
   exec { 'puppet ca create':
     command => "${puppet_cert} list -a",
     creates => "${ssldir}/ca/ca_crt.pem",
-  } ->
+  }
 
-  exec { 'puppet cert generate':
+  -> exec { 'puppet cert generate':
     command => "${puppet_cert} generate '${certname}'",
     creates => "${ssldir}/certs/${certname}.pem",
-  } ->
+  }
 
-  file { 'puppet cached crl':
+  -> file { 'puppet cached crl':
     ensure => file,
     path   => "${ssldir}/crl.pem",
     source => "${ssldir}/ca/ca_crl.pem",
